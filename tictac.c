@@ -6,158 +6,170 @@
 void display(char table[3][3]);
 
 int main(){
-    int turn = 1, row1, col1, row2, col2, wrong, win = 0, playerOne, playerTwo, i, j;
-    char ta[3][3] = {{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
+    int cont = 0;
 
-    printf("\nLet's play some Tic-Tac-Toe!\n");
-    printf("\n");
-    display(ta);
+    do {
+        int turn = 1, row1, col1, row2, col2, wrong, win = 0, playerOne, playerTwo, i, j;
+        char ta[3][3] = {{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
 
-    do
-    {
-        // Checks whose turn is it
-        if (turn % 2 == 0) {
-            // Loops for input
-            do
-            {
-                wrong = 0;
-                printf("\nPlayer 2 it's your turn! \n");
-                printf("\n");
-                printf("Enter a row: ");
-                scanf("%i",&row2);
-                printf("Enter a column: ");
-                scanf("%i",&col2);
-                printf("\n");
-                if (!(row2 >= 0 && row2 <= 2 && col2 >= 0 && col2 <= 2) || ta[row2][col2] != ' ') {
-                    printf("Invalid input!\n");
+        printf("\nLet's play some Tic-Tac-Toe!\n");
+        printf("\n");
+        display(ta);
+
+        do{
+            // Checks whose turn is it
+            if (turn % 2 == 0) {
+                // Loops for input
+                do {
+                    wrong = 0;
+                    printf("\nPlayer 2 it's your turn! \n");
                     printf("\n");
-                    wrong = 1;
-                }
-            } while (wrong);
+                    printf("Enter a row: ");
+                    scanf("%i",&row2);
+                    printf("Enter a column: ");
+                    scanf("%i",&col2);
+                    printf("\n");
+                    if (!(row2 >= 0 && row2 <= 2 && col2 >= 0 && col2 <= 2) || ta[row2][col2] != ' ') {
+                        printf("Invalid input!\n");
+                        printf("\n");
+                        wrong = 1;
+                    }
+                } while (wrong);
 
-            ta[row2][col2] = '0';
+                ta[row2][col2] = '0';
+            }
+            else {
+                // Loops for input
+                do {
+                    wrong = 0;
+                    printf("\nGo get 'em Player 1! \n");
+                    printf("\n");
+                    printf("Enter a row: ");
+                    scanf("%i",&row1);
+                    printf("Enter a column: ");
+                    scanf("%i",&col1);
+                    printf("\n");
+                    if (!(row1 >= 0 && row1 <= 2 && col1 >= 0 && col1 <= 2) || ta[row1][col1] != ' ') {
+                        printf("Invalid input!\n");
+                        printf("\n");
+                        wrong = 1;
+                    }
+                } while (wrong);
+                
+                ta[row1][col1] = 'X';
+            }
+
+            display(ta);
+
+
+        // Checks if somebody has won horizontally
+        for (i = 0; i < 3; i++) {
+            playerOne = 0;
+            playerTwo = 0;
+
+            for (j = 0; j < 3; j++) {
+                if (ta[i][j] == 'X') {
+                    playerOne++;
+                } else if (ta[i][j] == '0') {
+                    playerTwo++;
+                }
+                if (playerOne == 3) {
+                    win = 1;
+                    break;
+                } else if (playerTwo == 3) {
+                    win = 2;
+                    break;
+                }
+            }
+
+            if (win) {
+                break;
+            }
+        }
+
+        // Checks if somebody has won vertically
+        for (i = 0; i < 3; i++) {
+            playerOne = 0;
+            playerTwo = 0;
+
+            for (j = 0; j < 3; j++) {
+                if (ta[j][i] == 'X') {
+                    playerOne++;
+                } else if (ta[j][i] == '0') {
+                    playerTwo++;
+                }
+                if (playerOne == 3) {
+                    win = 1;
+                    break;
+                } else if (playerTwo == 3) {
+                    win = 2;
+                    break;
+                }
+            }
+
+            if (win) {
+                break;
+            }
+        }
+
+        // Checks if somebody has won diagonally
+        if (ta[0][0] == ta[1][1] && ta[1][1] == ta[2][2]) {
+            if (ta[0][0] == 'X') {
+                win = 1;
+                break;
+            } else if(ta[0][0] == '0') {
+                win = 2;
+                break;
+            }
+        }
+
+        if (ta[0][2] == ta[1][1] && ta[1][1] == ta[2][0]) {
+            if (ta[0][2] == 'X') {
+                win = 1;
+                break;
+            } else if (ta[0][2] == '0') {
+                win = 2;
+                break;
+            }
+        }        
+            
+            turn++;
+
+        // Loops while boxes aren't filled and no one has won
+        } while (turn < 10 && !win);
+
+        // Declares winner
+        if (win == 1) {
+            printf("\nPlayer 1 wins!\n");
+            printf("\n");
+        }
+        else if (win == 2) {
+            printf("\nPlayer 2 wins!\n");
+            printf("\n");
         }
         else
         {
-            // Loops for input
-            do
-            {
-                wrong = 0;
-                printf("\nGo get 'em Player 1! \n");
-                printf("\n");
-                printf("Enter a row: ");
-                scanf("%i",&row1);
-                printf("Enter a column: ");
-                scanf("%i",&col1);
-                printf("\n");
-                if (!(row1 >= 0 && row1 <= 2 && col1 >= 0 && col1 <= 2) || ta[row1][col1] != ' ') {
-                    printf("Invalid input!\n");
-                    printf("\n");
-                    wrong = 1;
-                }
-            } while (wrong);
-            
-            ta[row1][col1] = 'X';
+            printf("\nDraw!\n");
+            printf("\n");
         }
-
-        display(ta);
-
-
-    // Checks if somebody has won horizontally
-    for (i = 0; i < 3; i++) {
-        playerOne = 0;
-        playerTwo = 0;
-
-        for (j = 0; j < 3; j++) {
-            if (ta[i][j] == 'X') {
-                playerOne++;
-            }
-            else if (ta[i][j] == '0') {
-                playerTwo++;
-            }
-            if (playerOne == 3) {
-                win = 1;
-                break;
-            }
-            else if (playerTwo == 3) {
-                win = 2;
-                break;
-            }
-        }
-        if (win) {
-            break;
-        }
-    }
-
-    // Checks if somebody has won vertically
-    for (i = 0; i < 3; i++) {
-        playerOne = 0;
-        playerTwo = 0;
-
-        for (j = 0; j < 3; j++) {
-            if (ta[j][i] == 'X') {
-                playerOne++;
-            }
-            else if (ta[j][i] == '0') {
-                playerTwo++;
-            }
-            if (playerOne == 3) {
-                win = 1;
-                break;
-            }
-            else if (playerTwo == 3) {
-                win = 2;
-                break;
-            }
-        }
-
-        if (win) {
-            break;
-        }
-    }
-
-    // Checks if somebody has won diagonally
-    if (ta[0][0] == ta[1][1] && ta[1][1] == ta[2][2]) {
-        if (ta[0][0] == 'X') {
-            win = 1;
-            break;
-        }
-      	else if(ta[0][0] == '0') {
-            win = 2;
-            break;
-        }
-    }
-
-    if (ta[0][2] == ta[1][1] && ta[1][1] == ta[2][0]) {
-        if (ta[0][2] == 'X') {
-            win = 1;
-            break;
-        }
-      	else if (ta[0][2] == '0') {
-            win = 2;
-            break;
-        }
-    }        
         
-        turn++;
+        printf("Do you want to continue?\n");
+        printf("[1] Continue\n");
+        printf("[2] Exit\n");
+        printf("\n");
+        scanf("%i", &cont);
 
-    // Loops while boxes aren't filled and no one has won
-    } while (turn < 10 && !win);
+        switch(cont) {
+            case 1:
+                cont = 1;
+                break;
+            default:
+                cont = 0;
+                break;
+        }
 
-    // Declares winner
-    if (win == 1) {
-        printf("\nPlayer 1 wins!\n");
-        printf("\n");
-    }
-    else if (win == 2) {
-        printf("\nPlayer 2 wins!\n");
-        printf("\n");
-    }
-    else
-    {
-        printf("\nDraw!\n");
-        printf("\n");
-    }
+
+    } while(cont);
 }
 
 void display(char table[3][3]){
